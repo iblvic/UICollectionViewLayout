@@ -51,14 +51,17 @@
         totalItems = [self.dataSource collectionView:self.collectionView numberOfItemsInSection:0];
     }
     NSLog(@"totalItems:%lu",totalItems);
-    horizontalCount = kCltviewW/_itemSize.width;
-    horizontalPadding = (kCltviewW-horizontalCount*_itemSize.width)/(horizontalCount-1);
+    horizontalCount = (kCltviewW-2*_horizontalMargin)/_itemSize.width;
+    horizontalPadding = (kCltviewW-horizontalCount*_itemSize.width-2*_horizontalMargin)/(horizontalCount-1);
     NSUInteger pageCount;
-    CGFloat tempCount = totalItems/(horizontalCount*_verticalCount);
-    if (tempCount == 0) {
+    NSUInteger tempCount = (NSUInteger)(totalItems/(horizontalCount*_verticalCount));
+    if ((totalItems%(horizontalCount*_verticalCount)) == 0) {
         pageCount = tempCount;
     } else {
-        pageCount = (int)tempCount + 1;
+        pageCount = tempCount + 1;
+    }
+    if ([self.delegate respondsToSelector:@selector(numberOfPages:)]) {
+        [self.delegate numberOfPages:pageCount];
     }
     CGFloat contentWidth = self.collectionView.bounds.size.width * pageCount;
     CGSize contentSize = CGSizeMake(contentWidth, 0);
@@ -97,8 +100,8 @@
 {
     UICollectionViewLayoutAttributes *attribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
     NSUInteger countPerPage = horizontalCount*_verticalCount;
-    CGFloat atbX = (horizontalPadding+_itemSize.width)*(indexPath.row%horizontalCount)+(indexPath.row/countPerPage)*kCltviewW;
-    CGFloat atbY = (_verticalPadding+_itemSize.height)*(indexPath.row/horizontalCount)- (indexPath.row/countPerPage)*((_verticalPadding+_itemSize.height)*_verticalCount);
+    CGFloat atbX = _horizontalMargin+(horizontalPadding+_itemSize.width)*(indexPath.row%horizontalCount)+(indexPath.row/countPerPage)*kCltviewW;
+    CGFloat atbY = _offsetY+(_verticalPadding+_itemSize.height)*(indexPath.row/horizontalCount)- (indexPath.row/countPerPage)*((_verticalPadding+_itemSize.height)*_verticalCount);
     attribute.frame = (CGRect){atbX,atbY,_itemSize};
     return attribute;
 }

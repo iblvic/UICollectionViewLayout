@@ -10,7 +10,7 @@
 #import "SSGiftCollectionViewFlowLayout.h"
 #import "SMHCollectionViewCell.h"
 
-@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
+@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, CustomViewFlowLayoutDelegate>
 @property (nonatomic, strong) UICollectionView *cltView;
 @property (nonatomic, weak) UIPageControl *pageControl;
 @end
@@ -26,7 +26,9 @@ static NSString *identifier = @"collectionCell";
     SSGiftCollectionViewFlowLayout *viewFlowLayout = [[SSGiftCollectionViewFlowLayout alloc] init];
     viewFlowLayout.verticalCount = 3;
     viewFlowLayout.itemSize = (CGSize){100,120};
-    viewFlowLayout.verticalPadding = 20;
+    viewFlowLayout.horizontalMargin = 20/3;
+    viewFlowLayout.offsetY = 10;
+    viewFlowLayout.verticalPadding = 10;
     viewFlowLayout.delegate = self;
     _cltView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:viewFlowLayout];
     _cltView.showsHorizontalScrollIndicator = FALSE; // 去掉滚动条
@@ -39,9 +41,9 @@ static NSString *identifier = @"collectionCell";
     return _cltView;
 }
 #pragma mark - 实现CustomViewFlowLayoutDelegate
-- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout cellCenteredAtIndexPath:(NSIndexPath *)indexPath page:(int)page{
-    self.pageControl.currentPage = page; // 分页控制器当前显示的页数
-}
+//- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout cellCenteredAtIndexPath:(NSIndexPath *)indexPath page:(int)page{
+//    self.pageControl.currentPage = page; // 分页控制器当前显示的页数
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,10 +58,13 @@ static NSString *identifier = @"collectionCell";
     self.pageControl = pageCtl;
     
 }
-
+- (void)numberOfPages:(NSInteger)pages
+{
+    self.pageControl.numberOfPages = pages;
+}
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 43;
+    return 28;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:

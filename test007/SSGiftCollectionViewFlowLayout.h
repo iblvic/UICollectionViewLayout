@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 @protocol CustomViewFlowLayoutDelegate <UICollectionViewDelegateFlowLayout>
-- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout cellCenteredAtIndexPath:(NSIndexPath *)indexPath page:(int)page;
+- (void)numberOfPages:(NSInteger)pages;
 @end
 
 @interface SSGiftCollectionViewFlowLayout : UICollectionViewLayout
 @property (nonatomic, assign) CGSize itemSize;
 @property (nonatomic, assign) CGFloat verticalPadding;
+@property (nonatomic, assign) CGFloat offsetY;
+@property (nonatomic, assign) CGFloat horizontalMargin;
 @property (nonatomic, assign) NSUInteger verticalCount;
 @property (nonatomic, weak) id<CustomViewFlowLayoutDelegate> delegate;
 @end

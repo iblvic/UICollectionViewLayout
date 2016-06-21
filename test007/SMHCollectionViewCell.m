@@ -13,7 +13,6 @@
 - (UILabel *)title
 {
     if (_title == nil) {
-        
         _title = [[UILabel alloc] init];
         _title.textAlignment = NSTextAlignmentCenter;
         _title.bounds = (CGRect){0,0,100,30};
@@ -29,6 +28,8 @@
 {
     [super layoutSubviews];
     self.title.center = self.contentView.center;
+    CGFloat containW = self.contentView.bounds.size.width;
+    self.title.bounds = (CGRect){0,0,containW,30};
 }
 
 @end
