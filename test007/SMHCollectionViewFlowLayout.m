@@ -6,72 +6,70 @@
 //  Copyright © 2016年 com.benmai. All rights reserved.
 //
 
-#import "SSGiftCollectionViewFlowLayout.h"
+#import "SMHCollectionViewFlowLayout.h"
 
 #define kCltviewW (self.collectionView.bounds.size.width)
 #define kCltviewH (self.collectionView.bounds.size.height)
 
-//#define kPaddingH ((kCltviewW - 3*100)/2)
-//#define kPaddingV ((kCltviewH - 4*100 - 64)/3)
 
-@interface SSGiftCollectionViewFlowLayout()
+@interface SMHCollectionViewFlowLayout()
 {
-    CGFloat horizontalPadding;
-    NSUInteger horizontalCount;
-    NSUInteger totalItems;
+    CGFloat    _horizontalPadding;
+    NSUInteger _horizontalCount;
+    NSUInteger _verticalCount;
+    NSUInteger _totalItems;
+    NSUInteger _pageCount;
 }
 @property (nonatomic, weak) id <UICollectionViewDataSource> dataSource;
 
 @end
 
-@implementation SSGiftCollectionViewFlowLayout
+@implementation SMHCollectionViewFlowLayout
 
 - (void)prepareLayout{
     [super prepareLayout];
     
-}
-//- (id)init {
-//    if (self = [super init]) {
-//        self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-//        self.minimumInteritemSpacing = 10.0f;
-//        self.sectionInset = UIEdgeInsetsZero;
-//        self.itemSize = CGSizeMake(100.f ,100.f);
-//        self.minimumLineSpacing = 10.0;
-////        self.sectionInset = (UIEdgeInsets){0,0,60,0};
-//    }
-//    return self;
-//}
-
-
-- (CGSize)collectionViewContentSize
-{
-
     self.dataSource = self.collectionView.dataSource;
     if ([self.dataSource respondsToSelector:@selector(collectionView:numberOfItemsInSection:)]) {
-        totalItems = [self.dataSource collectionView:self.collectionView numberOfItemsInSection:0];
+        _totalItems = [self.dataSource collectionView:self.collectionView numberOfItemsInSection:0];
     }
-    NSLog(@"totalItems:%lu",totalItems);
-    horizontalCount = (kCltviewW-2*_horizontalMargin)/_itemSize.width;
-    horizontalPadding = (kCltviewW-horizontalCount*_itemSize.width-2*_horizontalMargin)/(horizontalCount-1);
+    NSLog(@"totalItems:%lu",_totalItems);
+    _horizontalCount = (kCltviewW - _sectionInset.left - _sectionInset.right) / _itemSize.width;
+    _horizontalPadding = (kCltviewW - _horizontalCount * _itemSize.width- _sectionInset.left - _sectionInset.right) / (_horizontalCount-1);
+    _verticalCount = (kCltviewH - _sectionInset.top - _sectionInset.bottom - 64 + _verticalPadding) / (_itemSize.height + _verticalPadding);
     NSUInteger pageCount;
-    NSUInteger tempCount = (NSUInteger)(totalItems/(horizontalCount*_verticalCount));
-    if ((totalItems%(horizontalCount*_verticalCount)) == 0) {
+    NSUInteger tempCount = (NSUInteger)(_totalItems/(_horizontalCount*_verticalCount));
+    if ((_totalItems % (_horizontalCount * _verticalCount)) == 0) {
         pageCount = tempCount;
     } else {
         pageCount = tempCount + 1;
     }
-    if ([self.delegate respondsToSelector:@selector(numberOfPages:)]) {
-        [self.delegate numberOfPages:pageCount];
+    if ([self.delegate respondsToSelector:@selector(flowLayout:numberOfPages:)]) {
+        [self.delegate flowLayout:self numberOfPages:pageCount];
     }
-    CGFloat contentWidth = self.collectionView.bounds.size.width * pageCount;
-    CGSize contentSize = CGSizeMake(contentWidth, 0);
+    _pageCount = pageCount;
+}
 
-    return contentSize;
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.sectionInset = (UIEdgeInsets){10,10,10,10};
+        self.itemSize = (CGSize){100, 120};
+        self.verticalPadding = 15;
+    }
+    return self;
+}
+
+
+- (CGSize)collectionViewContentSize
+{
+    NSLog(@"---collectionViewContentSize---");
+    return (CGSize){kCltviewW * _pageCount,0};
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
     CGRect oldBounds = self.collectionView.bounds;
-//    NSLog(@"oldBounds:%@,newBounds:%@",NSStringFromCGRect(oldBounds),NSStringFromCGRect(newBounds));
     if (CGRectGetWidth(oldBounds) != CGRectGetWidth(newBounds)) {
         NSLog(@"bounds change!!!");
         return YES;
@@ -83,42 +81,42 @@
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableArray *layoutAttributes = [NSMutableArray array];
-    NSLog(@"rect:%@",NSStringFromCGRect(rect));
     // Cells
     NSArray *visibleIndexPaths = [self indexPathsOfItemsInRect:rect];
-    NSLog(@"visibleIndexPaths:%@", visibleIndexPaths);
     for (NSIndexPath *indexPath in visibleIndexPaths) {
         UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:indexPath];
         [layoutAttributes addObject:attributes];
     }
-//    NSLog(@"layoutAttributes:%@", layoutAttributes);
-    
     return layoutAttributes;
 }
 
 - (nullable UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewLayoutAttributes *attribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-    NSUInteger countPerPage = horizontalCount*_verticalCount;
-    CGFloat atbX = _horizontalMargin+(horizontalPadding+_itemSize.width)*(indexPath.row%horizontalCount)+(indexPath.row/countPerPage)*kCltviewW;
-    CGFloat atbY = _offsetY+(_verticalPadding+_itemSize.height)*(indexPath.row/horizontalCount)- (indexPath.row/countPerPage)*((_verticalPadding+_itemSize.height)*_verticalCount);
+    NSUInteger countPerPage = _horizontalCount*_verticalCount;
+    CGFloat atbX = _sectionInset.left + (_horizontalPadding+_itemSize.width) * (indexPath.row % _horizontalCount) + (indexPath.row / countPerPage) * kCltviewW;
+    CGFloat atbY = _sectionInset.top + (_verticalPadding + _itemSize.height) * (indexPath.row / _horizontalCount) - (indexPath.row / countPerPage) * ((_verticalPadding + _itemSize.height) * _verticalCount);
     attribute.frame = (CGRect){atbX,atbY,_itemSize};
     return attribute;
 }
 
 - (NSArray<NSIndexPath *> *)indexPathsOfItemsInRect:(CGRect)rect
 {
-    NSUInteger minHorItem = MAX(CGRectGetMinX(rect)/_itemSize.width,0);
-    NSLog(@"minx=%f,minHorItem=%lu",CGRectGetMinX(rect),minHorItem);
-    NSUInteger maxHorItem = MAX(CGRectGetMaxX(rect)/_itemSize.width,0);
-    NSLog(@"maxX=%f,maxHorItem=%lu",CGRectGetMaxX(rect),maxHorItem);
-    
+    NSUInteger minPage = MAX(CGRectGetMinX(rect),0) / kCltviewW;
+    NSUInteger maxPage = MAX(CGRectGetMaxX(rect),0) / kCltviewW + 0.5;
+    NSLog(@"rect--%@", NSStringFromCGRect(rect));
+    NSLog(@"minPage:%@--maxPage:%@", @(minPage), @(maxPage));
     NSMutableArray *indexPaths = [NSMutableArray array];
-    for (NSUInteger idx=minHorItem*_verticalCount; idx < maxHorItem*_verticalCount; idx++) {
-        if (idx == totalItems) break;
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:idx inSection:0];
-        [indexPaths addObject:indexPath];
+    NSUInteger itemsPerPage = _verticalCount * _horizontalCount;
+    for (NSUInteger page = minPage; page < maxPage; page++) {
+        for (NSUInteger i = 0; i < itemsPerPage; i++) {
+            NSUInteger idx = (page * itemsPerPage) + i;
+            if (idx >= _totalItems) return indexPaths;
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:idx inSection:0];
+            [indexPaths addObject:indexPath];
+        }
     }
+    NSLog(@"indexPath:%@", indexPaths);
     return indexPaths;
 }
 

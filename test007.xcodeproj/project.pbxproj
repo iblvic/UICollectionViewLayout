@@ -13,10 +13,7 @@
 		042D646F1C242D4A0016BE91 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042D646D1C242D4A0016BE91 /* Main.storyboard */; };
 		042D64711C242D4A0016BE91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042D64701C242D4A0016BE91 /* Assets.xcassets */; };
 		042D64741C242D4A0016BE91 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042D64721C242D4A0016BE91 /* LaunchScreen.storyboard */; };
-		04C193B51C93FA2700FA05E9 /* SSGiftCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C193B41C93FA2700FA05E9 /* SSGiftCollectionViewFlowLayout.m */; };
-		04DD2D971C4D2CDB00699F72 /* testBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD2D961C4D2CDB00699F72 /* testBlock.m */; };
-		04DD2D9A1C4D2D7700699F72 /* testController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DD2D991C4D2D7700699F72 /* testController.m */; };
-		04F097F91C49F8A200133E44 /* CLLocation+Translate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F097F81C49F8A200133E44 /* CLLocation+Translate.m */; };
+		04C193B51C93FA2700FA05E9 /* SMHCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C193B41C93FA2700FA05E9 /* SMHCollectionViewFlowLayout.m */; };
 		04F4BF661C954D6E00C12797 /* SMHCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F4BF651C954D6E00C12797 /* SMHCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -31,14 +28,8 @@
 		042D64701C242D4A0016BE91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		042D64731C242D4A0016BE91 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042D64751C242D4A0016BE91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04C193B31C93FA2700FA05E9 /* SSGiftCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGiftCollectionViewFlowLayout.h; sourceTree = "<group>"; };
-		04C193B41C93FA2700FA05E9 /* SSGiftCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGiftCollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		04DD2D951C4D2CDB00699F72 /* testBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testBlock.h; sourceTree = "<group>"; };
-		04DD2D961C4D2CDB00699F72 /* testBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testBlock.m; sourceTree = "<group>"; };
-		04DD2D981C4D2D7700699F72 /* testController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testController.h; sourceTree = "<group>"; };
-		04DD2D991C4D2D7700699F72 /* testController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testController.m; sourceTree = "<group>"; };
-		04F097F71C49F8A200133E44 /* CLLocation+Translate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+Translate.h"; sourceTree = "<group>"; };
-		04F097F81C49F8A200133E44 /* CLLocation+Translate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Translate.m"; sourceTree = "<group>"; };
+		04C193B31C93FA2700FA05E9 /* SMHCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMHCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		04C193B41C93FA2700FA05E9 /* SMHCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMHCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		04F4BF641C954D6E00C12797 /* SMHCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMHCollectionViewCell.h; sourceTree = "<group>"; };
 		04F4BF651C954D6E00C12797 /* SMHCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMHCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,20 +69,11 @@
 				042D646A1C242D4A0016BE91 /* ViewController.h */,
 				042D646B1C242D4A0016BE91 /* ViewController.m */,
 				042D646D1C242D4A0016BE91 /* Main.storyboard */,
-				042D64701C242D4A0016BE91 /* Assets.xcassets */,
-				042D64721C242D4A0016BE91 /* LaunchScreen.storyboard */,
-				042D64751C242D4A0016BE91 /* Info.plist */,
-				042D64641C242D4A0016BE91 /* Supporting Files */,
-				04F097F71C49F8A200133E44 /* CLLocation+Translate.h */,
-				04F097F81C49F8A200133E44 /* CLLocation+Translate.m */,
-				04DD2D951C4D2CDB00699F72 /* testBlock.h */,
-				04DD2D961C4D2CDB00699F72 /* testBlock.m */,
-				04DD2D981C4D2D7700699F72 /* testController.h */,
-				04DD2D991C4D2D7700699F72 /* testController.m */,
-				04C193B31C93FA2700FA05E9 /* SSGiftCollectionViewFlowLayout.h */,
-				04C193B41C93FA2700FA05E9 /* SSGiftCollectionViewFlowLayout.m */,
+				04C193B31C93FA2700FA05E9 /* SMHCollectionViewFlowLayout.h */,
+				04C193B41C93FA2700FA05E9 /* SMHCollectionViewFlowLayout.m */,
 				04F4BF641C954D6E00C12797 /* SMHCollectionViewCell.h */,
 				04F4BF651C954D6E00C12797 /* SMHCollectionViewCell.m */,
+				042D64641C242D4A0016BE91 /* Supporting Files */,
 			);
 			path = test007;
 			sourceTree = "<group>";
@@ -99,6 +81,9 @@
 		042D64641C242D4A0016BE91 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				042D64701C242D4A0016BE91 /* Assets.xcassets */,
+				042D64721C242D4A0016BE91 /* LaunchScreen.storyboard */,
+				042D64751C242D4A0016BE91 /* Info.plist */,
 				042D64651C242D4A0016BE91 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -174,14 +159,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04F097F91C49F8A200133E44 /* CLLocation+Translate.m in Sources */,
 				04F4BF661C954D6E00C12797 /* SMHCollectionViewCell.m in Sources */,
-				04C193B51C93FA2700FA05E9 /* SSGiftCollectionViewFlowLayout.m in Sources */,
-				04DD2D971C4D2CDB00699F72 /* testBlock.m in Sources */,
+				04C193B51C93FA2700FA05E9 /* SMHCollectionViewFlowLayout.m in Sources */,
 				042D646C1C242D4A0016BE91 /* ViewController.m in Sources */,
 				042D64691C242D4A0016BE91 /* AppDelegate.m in Sources */,
 				042D64661C242D4A0016BE91 /* main.m in Sources */,
-				04DD2D9A1C4D2D7700699F72 /* testController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,10 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "SSGiftCollectionViewFlowLayout.h"
+#import "SMHCollectionViewFlowLayout.h"
 #import "SMHCollectionViewCell.h"
 
-@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, CustomViewFlowLayoutDelegate>
+@interface ViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, SMHCollectionViewFlowLayoutDelegate>
 @property (nonatomic, strong) UICollectionView *cltView;
 @property (nonatomic, weak) UIPageControl *pageControl;
 @end
@@ -23,15 +23,13 @@ static NSString *identifier = @"collectionCell";
     if (_cltView != nil) {
         return _cltView;
     }
-    SSGiftCollectionViewFlowLayout *viewFlowLayout = [[SSGiftCollectionViewFlowLayout alloc] init];
-    viewFlowLayout.verticalCount = 3;
+    SMHCollectionViewFlowLayout *viewFlowLayout = [[SMHCollectionViewFlowLayout alloc] init];
     viewFlowLayout.itemSize = (CGSize){100,120};
-    viewFlowLayout.horizontalMargin = 20/3;
-    viewFlowLayout.offsetY = 10;
-    viewFlowLayout.verticalPadding = 10;
+    viewFlowLayout.sectionInset = (UIEdgeInsets){10,10,10,10};
+    viewFlowLayout.verticalPadding = 15;
     viewFlowLayout.delegate = self;
     _cltView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:viewFlowLayout];
-    _cltView.showsHorizontalScrollIndicator = FALSE; // 去掉滚动条
+    _cltView.showsHorizontalScrollIndicator = NO; // 去掉滚动条
     _cltView.alwaysBounceHorizontal = YES;
     _cltView.pagingEnabled = YES;
     _cltView.scrollEnabled = YES;
@@ -40,25 +38,26 @@ static NSString *identifier = @"collectionCell";
     [_cltView registerClass:[SMHCollectionViewCell class] forCellWithReuseIdentifier:identifier];
     return _cltView;
 }
-#pragma mark - 实现CustomViewFlowLayoutDelegate
-//- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout cellCenteredAtIndexPath:(NSIndexPath *)indexPath page:(int)page{
-//    self.pageControl.currentPage = page; // 分页控制器当前显示的页数
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.cltView.frame = self.view.bounds;
-    [self.view addSubview:_cltView];
+//    self.cltView.frame = self.view.bounds;
+    [self.view addSubview:self.cltView];
     
     UIPageControl *pageCtl = [[UIPageControl alloc] init];
-    pageCtl.center = (CGPoint){self.view.center.x, self.view.bounds.size.height - 30};
-    pageCtl.numberOfPages = 5;
+//    pageCtl.center = (CGPoint){self.view.center.x, self.view.bounds.size.height - 30};
     [self.view addSubview:pageCtl];
     self.pageControl = pageCtl;
     
 }
-- (void)numberOfPages:(NSInteger)pages
+- (void)viewWillLayoutSubviews
+{
+    NSLog(@"viewWillLayoutSubviews");
+    self.cltView.frame = self.view.bounds;
+    self.pageControl.center = (CGPoint){self.view.center.x, self.view.bounds.size.height - 30};
+    [super viewWillLayoutSubviews];
+}
+- (void)flowLayout:(SMHCollectionViewFlowLayout *)layout numberOfPages:(NSInteger)pages
 {
     self.pageControl.numberOfPages = pages;
 }
@@ -72,7 +71,7 @@ static NSString *identifier = @"collectionCell";
 {
     SMHCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     cell.backgroundColor = [UIColor grayColor];
-    cell.title.text = [NSString stringWithFormat:@"item-%d",indexPath.row];
+    cell.title.text = [NSString stringWithFormat:@"item-%@",@(indexPath.row)];
     
     return cell;
 }
